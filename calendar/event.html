@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件管理器</title>
+</head>
+<body>
+    <h1>事件管理器</h1>
+
+    <input type="file" id="jsonFileInput">
+    <button type="button" onclick="loadAndMerge()">Load and Merge</button>
+
+    <form id="eventForm">
+        <label for="title">Event Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="start">Start Date and Time:</label>
+        <input type="datetime-local" id="start" name="start" required><br><br>
+
+        <label for="end">End Date and Time:</label>
+        <input type="datetime-local" id="end" name="end" required><br><br>
+
+        <button type="button" onclick="addEvent()">Add Event</button>
+        <button type="button" onclick="downloadEvents()">Download Merged Events</button>
+
+    </form>
+
+    <h2>事件:</h2>
+    <pre id="eventList"></pre>
+
+    <script>
+        let eventList = [];
+
+        function addEvent() {
+            const title = document.getElementById("title").value;
+            const start = document.getElementById("start").value;
+            const end = document.getElementById("end").value;
+
+            const newEvent = {
+                title: title,
+                start: start,
+                end: end
+            };
+
+            eventList.push(newEvent);
+            updateEventList();
+            clearForm();
+        }
+
+        function updateEventList() {
+            const eventListElement = document.getElementById("eventList");
+            eventListElement.textContent = JSON.stringify(eventList, null, 2);
+        }
+
+        function clearForm() {
+            document.getElementById("title").value = "";
+            document.getElementById("start").value = "";
+            document.getElementById("end").value = "";
+        }
+
+        function loadAndMerge() {
+            const jsonFileInput = document.getElementById("jsonFileInput");
+            if (jsonFileInput.files.length > 0) {
+                const file = jsonFileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const oldEvents = JSON.parse(event.target.result);
+                    eventList = eventList.concat(oldEvents);
+                    updateEventList();
+                };
+                reader.readAsText(file);
+            }
+        }
+        function downloadEvents() {
+    const updatedData = JSON.stringify(eventList, null, 2);
+    const blob = new Blob([updatedData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "merged-events.json";
+    a.click();
+}
+
+    </script>
+</body>
+</html>
