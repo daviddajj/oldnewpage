@@ -20,22 +20,22 @@ app.secret_key= b'oldnew'
 #     return '.' in filename and \
 # filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/',methods=['POST','GET'])
+@app.route('oldnewpage/',methods=['POST','GET'])
 def index():
 	if request.method =='POST':
 		if request.values['send']=='送出':
 			return render_template('index.html',name=request.values['user'])
 	return render_template('index.html',name="")
 
-@app.route('/menu',methods=['GET','POST'])
+@app.route('oldnewpage/menu',methods=['GET','POST'])
 def menu():
     return render_template('menu.html', template_folder='./')
 
 
-@app.route('/register',methods=['POST','GET'])
+@app.route('oldnewpage/register',methods=['POST','GET'])
 def register():
 
-	with open('./member.json','r') as file_object:
+	with open('oldnewpage/member.json','r') as file_object:
 		member = json.load(file_object)
 	if request.method=='POST':
 		if request.values['send']=='送出':
@@ -57,11 +57,11 @@ def register():
 	return render_template('register.html')
 
 
-@app.route('/login',methods=['GET','POST'])
+@app.route('oldnewpage/login',methods=['GET','POST'])
 def login():
 
 	if request.method== 'POST' :
-		with open('./member.json','r') as file_object:
+		with open('oldnewpage/member.json','r') as file_object:
 			member = json.load(file_object)
 
 		if request.values['userid'] in member:
@@ -76,7 +76,7 @@ def login():
 	return render_template('login.html')
 
 
-@app.route('/logout',methods=['GET','POST'])
+@app.route('oldnewpage/logout',methods=['GET','POST'])
 def logout ():
 	if request.method=='POST':
 		if request.values['send']=='確定':
@@ -84,7 +84,7 @@ def logout ():
 		return redirect(url_for('index'))
 	return render_template('logout.html')
 
-@app.route('/upload/',methods=['GET','POST'])
+@app.route('oldnewpage/upload/',methods=['GET','POST'])
 def upload():
 
 	basepath = os.path.join(os.path.dirname(__file__), 'static','uploads')
@@ -171,7 +171,7 @@ def fill_photo(img,out_path):
 				new[i,int(j+center)]=img[i,j]
 	cv2.imwrite(out_path, new)
 
-@app.route('/album/', methods=['POST', 'GET'])
+@app.route('oldnewpage/album/', methods=['POST', 'GET'])
 def album():
 
 	colspan=int(int(session.get('width'))/150)
