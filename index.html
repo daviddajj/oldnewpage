@@ -81,15 +81,15 @@ body{
     <nav>
       <ul>
         <li><a href="../oldnewpage/index" >首頁</a></li>
-        <li><a href="../menu">菜單選擇</a></li>  
-        <li><a href="../album">相簿</a></li>
+        <li><a href="../oldnewpage/menu">菜單選擇</a></li>  
+        <li><a href="../oldnewpage/album">相簿</a></li>
         {% if session['username'] != null %}
-        <li><a href="../upload">菜單上傳</a></li>
-        <li><a href="../logout">登出</a></li>
+        <li><a href="..//oldnewpage/upload">菜單上傳</a></li>
+        <li><a href="..//oldnewpage/logout">登出</a></li>
         <p>Hello, {{ session['username'] }}</p>
         {% else %}
-        <li><a href="../register">註冊</a></li>
-        <li><a href="../login">登入</a></li>
+        <li><a href="../oldnewpage/register">註冊</a></li>
+        <li><a href="../oldnewpage/login">登入</a></li>
         <p>Hello, 陌生人</p>
         {% endif %}
         <button type="button" id="reserve">訂位</button>
