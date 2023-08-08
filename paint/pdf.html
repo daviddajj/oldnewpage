@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit and Save PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.worker.min.js';</script>
+</head>
+<body>
+    <h1>Edit and Save PDF</h1>
+    
+    <div>
+        <button id="openPdfButton">Open PDF</button>
+    </div>
+    
+    <div>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
+    
+    <div>
+        <canvas id="pdfCanvas"></canvas>
+    </div>
+
+    <button id="saveButton">Save</button>
+
+    <script>
+        const openPdfButton = document.getElementById('openPdfButton');
+        const imageInput = document.getElementById('imageInput');
+        const pdfCanvas = document.getElementById('pdfCanvas');
+        let pdfDoc = null;
+        let pageNum = 1;
+        let fabricCanvas = null;
+        let imgObject = null;
+
+        openPdfButton.addEventListener('click', async () => {
+            const pdfUrl = '1.pdf';  // Replace with actual PDF URL
+            const loadingTask = pdfjsLib.getDocument(pdfUrl);
+            pdfDoc = await loadingTask.promise;
+            renderPage(pageNum);
+        });
+
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    fabricCanvas = new fabric.Canvas('pdfCanvas', { preserveObjectStacking: true });
+                    fabric.Image.fromURL(e.target.result, (image) => {
+                        imgObject = image;
+                        fabricCanvas.add(imgObject);
+                    }, {
+                        left: 100,
+                        top: 100,
+                        width: img.width,
+                        height: img.height,
+                        scaleX: 0.5,
+                        scaleY: 0.5
+                    });
+                };
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function renderPage(num) {
+            pdfDoc.getPage(num).then((page) => {
+                const viewport = page.getViewport({ scale: 1 });
+                pdfCanvas.width = viewport.width;
+                pdfCanvas.height = viewport.height;
+                const ctx = pdfCanvas.getContext('2d');
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        }
+
+        // Save modified PDF
+        function savePdf() {
+            if (fabricCanvas) {
+                const pdfCanvasDataURL = fabricCanvas.toDataURL({ format: 'png' });
+                const img = new Image();
+                img.src = pdfCanvasDataURL;
+                img.onload = () => {
+                    const pdf = new jsPDF();
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    pdf.addImage(img, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save('modified.pdf');
+                };
+            } else {
+                console.log("Canvas not initialized.");
+            }
+        }
+
+        document.getElementById('saveButton').addEventListener('click', () => {
+            savePdf();
+        });
+
+    </script>
+</body>
+</html>
