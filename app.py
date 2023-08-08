@@ -73,7 +73,7 @@ def login():
 				return render_template('login.html',alert="Your password is wrong, please check again!")
 		else:
 			return render_template('login.html',alert="Your account is unregistered.")
-	return render_template('login.html')
+	return render_template('oldnewpage/login.html')
 
 
 @app.route('oldnewpage/logout',methods=['GET','POST'])
