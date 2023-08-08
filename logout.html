@@ -59,10 +59,10 @@ span {
 <form method="post">
 <ul class="computer" id="topnav">
         <li><a href="../" class="active">首頁</a></li>
-  <li><a href="../menu"class="active">菜單選擇</a></li>  
+  <li><a href="../oldnewpage/menu"class="active">菜單選擇</a></li>  
   {%if session['username'] != null %}
-  <li><a href="../upload">菜單上傳</a></li>
-  <li><a href="../logout">登出</a></li>
+  <li><a href="../oldnewpage/upload">菜單上傳</a></li>
+  <li><a href="../oldnewpage/logout">登出</a></li>
   <p>Hello,{{session['username']}}</p>
   {% endif %}
   <li style="float:right"><a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a></li>
