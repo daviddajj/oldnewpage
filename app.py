@@ -20,14 +20,14 @@ app.secret_key= b'oldnew'
 #     return '.' in filename and \
 # filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/oldnewpage/',methods=['POST','GET'])
+@app.route('oldnewpage/',methods=['POST','GET'])
 def index():
 	if request.method =='POST':
 		if request.values['send']=='送出':
 			return render_template('index.html',name=request.values['user'])
 	return render_template('index.html',name="")
 
-@app.route('/oldnewpage/menu',methods=['GET','POST'])
+@app.route('oldnewpage/menu',methods=['GET','POST'])
 def menu():
     return render_template('menu.html', template_folder='./')
 
@@ -57,7 +57,7 @@ def register():
 	return render_template('register.html')
 
 
-@app.route('/oldnewpage/login',methods=['GET','POST'])
+@app.route('oldnewpage/login',methods=['GET','POST'])
 def login():
 
 	if request.method== 'POST' :
