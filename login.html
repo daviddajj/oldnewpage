@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/navbar.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='oldnewpage/css/navbar.css')}}">
 <title>OldNew</title>
 </head>
 <style>
@@ -65,7 +65,7 @@ span {
     <li><a href="../oldnewpage/logout">登出</a></li>
     <p>Hello,{{session['username']}}</p>
     {% else %}
-    <li><a href="../oldnewpage/register">註冊</a></li>
+    <li><a href="../register">註冊</a></li>
     {% endif %}
 	<li style="float:right"><a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a></li>
 </ul>
