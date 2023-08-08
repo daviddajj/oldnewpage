@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<title>OldNew</title>
+</head>
+<style>
+  .container {
+  position: relative;
+}
+nav {
+  position: absolute;
+  left: 0px;
+  width: 200px;
+  background-color: gray;
+}
+section {
+  /* position is static by default */
+  margin-left: 200px;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 70px;
+  background-color: white;
+  width: 100%;
+}
+body{
+  max-width: 1200px;
+	margin: 0 auto;
+	font-family: Arial, Helvetica, sans-serif;
+  background-image: url("https://i.imgur.com/qbbWeqP.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+  .modal {
+	display: block;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+	background-color: white;
+	margin: 10% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+  }
+  
+  .close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+  }
+  
+</style>
+<body >
+  <h2>首頁</h2> 
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="../" >首頁</a></li>
+        <li><a href="../menu">菜單選擇</a></li>  
+        <li><a href="../album">相簿</a></li>
+        {% if session['username'] != null %}
+        <li><a href="../upload">菜單上傳</a></li>
+        <li><a href="../logout">登出</a></li>
+        <p>Hello, {{ session['username'] }}</p>
+        {% else %}
+        <li><a href="../register">註冊</a></li>
+        <li><a href="../login">登入</a></li>
+        <p>Hello, 陌生人</p>
+        {% endif %}
+        <button type="button" id="reserve">訂位</button>
+      </ul>
+    </nav>
+    <li style="float:right"><a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a></li>
+  </div>
+  <section>
+    <iframe src="https://calendar.google.com/calendar/embed?src=oldnewproject1%40gmail.com&ctz=Asia%2FTaipei" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+  </section>
+
+  <div id="reservationModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      老新台菜 十全店 /高雄市三民區十全三路265號
+      <br>
+      (07)311-8099
+      <br>
+      老新台菜九如創始店 /高雄市三民區九如二路227號
+      <br>
+      (07)313-3077
+      <br>
+      營業時間 早上11:30~14:00 晚上17:30~22:00
+      <h2>訂位表單</h2>
+      <iframe src="https://calendar.google.com/calendar/embed?src=https://calendar.google.com/calendar/embed?src=oldnewproject1%40gmail.com&ctz=Asia%2FTaipei" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+      <form>
+        <!-- 在這裡放置訂位表單的各個元素 -->
+      </form>
+    </div>
+  </div> 
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("topnav");
+      if (x.className === "computer") {
+        x.className = "phone";
+      } else {
+        x.className = "computer";
+      }
+    }
+
+    // 獲取彈窗元素
+    var modal = document.getElementById("reservationModal");
+
+    // 獲取關閉按鈕元素
+    var closeBtn = document.getElementsByClassName("close")[0];
+
+    // 點擊按鈕時顯示彈窗
+    document.getElementById("reserve").addEventListener("click", function() {
+  // 在這裡檢查是否已登入，如果已登入則顯示彈窗
+    {% if session['username'] %}
+    modal.style.display = "block";
+    {% else %}
+  // 如果未登入，跳轉到登入頁面或顯示提示訊息
+    alert("請先登入以使用訂位功能。");
+  // 或是跳轉到登入頁面的程式碼
+  // window.location.href = "../login";
+    {% endif %}
+  });
+
+    // 點擊關閉按鈕時隱藏彈窗
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    };
+
+    // 點擊彈窗以外的地方時隱藏彈窗
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+    
+  </script> 
+</body>
+</html>

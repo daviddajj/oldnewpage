@@ -1,0 +1,177 @@
+<html>
+　<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/navbar.css')}}">
+　<title>老新台菜</title>
+
+<style>
+  body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: lavender;
+  }
+  
+  table{
+    border-radius:5px;
+    padding-bottom: 10px;
+    padding-top: 0px;
+    margin-top:20px;
+    width:70%;
+  }
+  
+  th{
+    border-radius:10px;
+  }
+  
+  td{
+    border:1px #000 solid;
+    background-color: white;
+  }
+  
+  
+  input{
+    font-size: initial;
+  }
+  
+  span {
+    background-color:#FFC8B4;
+    box-shadow:1px 1px 3px red;
+    margin-right:8px;
+    text-align: right;
+  }
+  
+  div{
+    padding-top: 80px;
+    padding-left:20px
+  }
+  
+  
+  @media screen and (max-width: 400px){
+    table{
+      width:100%;
+    }
+    div{
+      padding-top: 80px;
+      padding-left:10px;
+      padding-right: 10px;
+    }
+  
+  }
+  
+  .button {
+    border:0;
+    background-color:darkviolet;
+    color:#fff;
+    border-radius:20px;
+    cursor:pointer;
+    width:90px;
+    height:30px;
+  }
+  
+  .button:hover{
+    color:black;
+    background-color: lavender;
+  }
+  
+  
+  </style>
+
+
+
+<script type="text/javascript">
+        function photos()
+        {      
+
+            document.getElementById("Image").src =document.getElementById("選則").value;
+            document.getElementById("Image0").src =document.getElementById("選則0").value;
+            document.getElementById("Image1").src =document.getElementById("選則1").value;
+            document.getElementById("Image2").src =document.getElementById("選則2").value;
+            document.getElementById("Image3").src =document.getElementById("選則3").value;
+            document.getElementById("Image4").src =document.getElementById("選則4").value;
+            document.getElementById("Image5").src =document.getElementById("選則5").value;
+            document.getElementById("Image6").src =document.getElementById("選則6").value;
+            document.getElementById("Image7").src =document.getElementById("選則7").value;
+            document.getElementById("Image8").src =document.getElementById("選則8").value;
+            document.getElementById("Image9").src =document.getElementById("選則9").value;
+            document.getElementById("Image10").src =document.getElementById("選則10").value;
+        }
+
+    </script>
+　</head>
+<h2>菜單選擇</h2>
+<ul class="computer" id="topnav">
+  <li><a href="../" >首頁</a></li>
+  <li><a href="../menu">菜單選擇</a></li>  
+  <li><a href="../album">相簿</a></li>
+  {% if session['username'] != null %}
+  <li><a href="../upload">菜單上傳</a></li>
+  <li><a href="../logout">登出</a></li>
+  <p>Hello, {{ session['username'] }}</p>
+  {% else %}
+  <li><a href="../register">註冊</a></li>
+  <li><a href="../login">登入</a></li>
+  <p>Hello, 陌生人</p>
+  {% endif %}
+  <li style="float:right"><a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a></li>
+</ul>
+           </form>
+      </div>
+  </div>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("topnav");
+      if (x.className === "computer") {
+        x.className = "phone";
+      } else {
+        x.className = "computer";
+      }
+    }
+    </script>
+
+    <!-- <br>
+    <select style="width: 115px;" id="選則" onchange="photos()">
+      <optgroup label="迎賓菜">
+        <option value="C:/oldnew/templates/菜品/葷食/7D0BAD4F-AE51-4BC8-9A0F-2275DF8BDCFF-L0-001.jpg">花生毛豆</option>
+      </optgroup> 
+    </select>
+    <img id="Image" src="C:/oldnew/templates/菜品/葷食/7D0BAD4F-AE51-4BC8-9A0F-2275DF8BDCFF-L0-001.jpg" width="200" height="200" />
+    <br> -->
+
+    <form method="post">
+      <table align="center">
+        <tr><td style="border:none;background-color: lavender"><p>選擇你想看的相冊：</p>
+          <select id="folder" name=folder onchange="this.form.submit()">
+            {% for dir in dirs %}
+              <option value={{dirs.index(dir)}}>{{dir}}</option>
+            {% endfor %}
+          </select></td></tr>
+          {% for folder in filefolder %}
+          <tr>
+            <th colspan="7" bgcolor="darkorchid">{{folder}}</th>
+          </tr>
+          <!-- {% if files[folder]['photo'] != [] %}
+          <tr>
+            <th colspan="7" bgcolor="blueviolet">photo</th>
+          </tr>
+          {% endif %} -->
+          {% for image in files[folder]['photo'] %}
+            {% if files[folder]['photo'].index(image) % colspan == 0 and files[folder]['photo'].index(image) != 0 %}
+              <tr>
+                <td align="center">
+                <img src="../static/uploads/{{username}}/{{folder}}/album/photo/{{image}}" width="150" height="150">
+                </td>
+           {% else %} 
+               <td align="center">
+                <img src="../static/uploads/{{username}}/{{folder}}/album/photo/{{image}}" width="150" height="150">    
+              </td>
+            {% endif %}
+          {% endfor %}  
+
+
+        {% endfor %}
+</body>
+  </html>
